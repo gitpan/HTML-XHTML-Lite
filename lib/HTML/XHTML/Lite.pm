@@ -25,7 +25,7 @@ our @EXPORT = qw(
 start_page end_page getvars
 );
 
-our $VERSION = '0.01';
+our $VERSION = '0.02';
 
 
 # Preloaded methods go here.
@@ -177,7 +177,7 @@ sub getvars
 		$a[1]=~s/%([\da-f][\da-f])/chr(hex($1))/egi;
 		push @{$vars{$a[0]}},$a[1];
 	}
-	return \%vars;
+	return %vars;
 }
 
 1;
