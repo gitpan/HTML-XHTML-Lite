@@ -7,3 +7,6 @@ Revision history for Perl extension HTML::XHTML::Lite.
 	- Bug Fix: getvars() was returning a hashref, not a
 		hash as stated in the documentation.  It now
 		returns a hash as intended.
+0.03  Fri June 10 09:45:00 2005
+	- Cosmetic changes: make created code easier to read.
+	- Include sample application in documentation.	

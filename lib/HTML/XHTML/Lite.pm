@@ -25,7 +25,7 @@ our @EXPORT = qw(
 start_page end_page getvars
 );
 
-our $VERSION = '0.02';
+our $VERSION = '0.03';
 
 
 # Preloaded methods go here.
@@ -77,8 +77,8 @@ $page.=<<EOT;
 <meta name="DC.title" lang="$p{lang}" content="$p{dctitle}" />
 EOT
 
-$page.="<meta name=\"DC.description\" lang=\"$p{lang}\" content=\"$p{description}\" />" if defined $p{description};
-$page.="<meta name=\"DC.creator\" content=\"$p{creator}\" />" if defined $p{creator};
+$page.="<meta name=\"DC.description\" lang=\"$p{lang}\" content=\"$p{description}\" />\n" if defined $p{description};
+$page.="<meta name=\"DC.creator\" content=\"$p{creator}\" />\n" if defined $p{creator};
 $page.="<meta name=\"DC.identifier\" content=\"$p{identifier}\" />\n" if defined $p{identifier};
 $page.="<meta name=\"DC.subject\" lang=\"$p{lang}\" content=\"$p{subject}\" />\n" if defined $p{subject};
 $page.="<meta name=\"DC.rights\" content=\"$p{rights}\" />\n" if defined $p{rights};
@@ -90,8 +90,8 @@ if (defined $p{legacy} && defined $p{description} && defined $p{subject})
 {
 	my $kwds=$p{subject};
 	$kwds=~s/;/,/g;
-	$page.="<meta name=\"description\" content=\"$p{description}\" />";
-	$page.="<meta name=\"keywords\" content=\"$kwds\" />";
+	$page.="<meta name=\"description\" content=\"$p{description}\" />\n";
+	$page.="<meta name=\"keywords\" content=\"$kwds\" />\n";
 }
 
 $page.="<link rel=\"stylesheet\" type=\"text/css\" href=\"$p{csssrc}\" />\n" if defined $p{csssrc};
@@ -361,6 +361,65 @@ that any validation systems being used are actually working.
    * Inclusion of dc.accessibility, when more mature
    * Links to EARL assertions about the document
    * You tell me...
+
+=head1 APPLICATION EXAMPLE
+
+#!/usr/bin/perl
+
+# Programme to create XHTML template
+# through command line interaction.
+
+use strict;
+use warnings;
+use HTML::XHTML::Lite;
+
+my @tnow=localtime(time());
+my $yearnow=1900+$tnow[5];
+my $datenow="$yearnow-$tnow[4]-$tnow[3]";
+
+print "C R E A T E   X H T M L   D O C U M E N T\n";
+print "-----------------------------------------\n\n";
+
+my $myname=ui('Your name','Fred Bloggs');
+my $myname_=$myname;
+$myname_=~s/\s/_/g; $myname_=~s/\.//g;
+my $defrights="(C) Copyright $yearnow $myname";
+my $filename=ui('File name',"${datenow}_${myname_}.html");
+my $title=ui('dc:title','Untitled');
+my $description=ui('dc:description','My Document');
+my $subject=ui('dc:subject','');
+my $creator=ui('dc:creator',$myname);
+my $created=ui('dc:date.created',$datenow);
+my $updated=ui('dc:date.updated',$datenow);
+my $rights=ui('dc:rights',$defrights);
+my $identifier=ui('dc:identifier',"file://$filename");
+my $stylesheet=ui('Stylesheet source URI','default.css');
+
+open (OUT,">$filename") or die "Can't write to $filename: $!";
+select OUT;
+start_page({
+	isfile=>1,
+	title=>$title, description=>$description, subject=>$subject,
+	creator=>$creator, created=>$created, updated=>$updated,
+	rights=>$rights, identifier=>$identifier,
+	csssrc=>$stylesheet,
+	body=>"<h1>$title</h1>",
+	});
+select STDOUT;
+close OUT;
+
+sub ui
+{
+	my ($prompt,$def)=@_;
+	$prompt.=" [$def]" if defined $def;
+	$prompt.=':';
+	print $prompt;
+	$_=<STDIN>;
+	chomp;
+	if (defined $def) { return $_ ? $_ : $def; }
+	else { return $_; }
+}
+
 
 =head1 SEE ALSO
 

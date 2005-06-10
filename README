@@ -23,7 +23,8 @@ of start_page(), nodoctype=>1, is provided purely for the purpose of
 being able to leave out required components to check that any 
 validation systems being used are actually working.
 
-For further information, please see the documentation.
+For further information, please see the documentation.  A sample
+application is included.
 
 INSTALLATION
 
