@@ -10,3 +10,6 @@ Revision history for Perl extension HTML::XHTML::Lite.
 0.03  Fri June 10 09:45:00 2005
 	- Cosmetic changes: make created code easier to read.
 	- Include sample application in documentation.	
+0.04  Tue June 14 16:51:00 2005
+	- Fix bug when end_page() was not given an argument
+	- Insert missing documentation for end_page()

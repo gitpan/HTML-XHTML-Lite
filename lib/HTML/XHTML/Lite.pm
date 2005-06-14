@@ -25,7 +25,7 @@ our @EXPORT = qw(
 start_page end_page getvars
 );
 
-our $VERSION = '0.03';
+our $VERSION = '0.04';
 
 
 # Preloaded methods go here.
@@ -125,6 +125,9 @@ else
 sub end_page
 {
 	my $page;
+
+	$_[0]={} unless defined $_[0];
+
 	my %p=%{$_[0]};
 	$page.="\n</body></html>\n";
 
@@ -345,6 +348,22 @@ that any validation systems being used are actually working.
    body		Providing a value for 'body' will cause an entire
    		page to be created, the <head>, body (as provided)
 		and a call to end_page.
+
+=head3 end_page()
+
+   Close <body> and <html> elements.  Takes a hash ref [like start_page()]
+   with arguments.  Currently, only 'string' is supported; returns a scalar
+   if true (value is 1).
+
+=head4 EXAMPLES
+
+   end_page();
+
+   - prints "\n</body></html>\n"
+
+   end_page({string=>1});
+
+   - returns scalar "\n</body></html\n"
 
 =head1 DEPENDENCIES
 
