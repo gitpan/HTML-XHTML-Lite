@@ -16,3 +16,5 @@ Revision history for Perl extension HTML::XHTML::Lite.
 0.05  Mon June 05 09:00:00 2006
 	- Correct presentation of Dublin Core metadata
 	  to incorporate correct DCTERMS stuff.
+0.06  Mon June 05 09:00:01 2006
+	- Bugfix for 0.05; module breaks due to missing "

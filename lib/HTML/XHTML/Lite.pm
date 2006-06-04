@@ -25,7 +25,7 @@ our @EXPORT = qw(
 start_page end_page getvars
 );
 
-our $VERSION = '0.05';
+our $VERSION = '0.06';
 
 
 # Preloaded methods go here.
@@ -83,10 +83,8 @@ $page.="<meta name=\"DC.creator\" content=\"$p{creator}\" />\n" if defined $p{cr
 $page.="<meta name=\"DC.identifier\" content=\"$p{identifier}\" />\n" if defined $p{identifier};
 $page.="<meta name=\"DC.subject\" lang=\"$p{lang}\" content=\"$p{subject}\" />\n" if defined $p{subject};
 $page.="<meta name=\"DC.rights\" content=\"$p{rights}\" />\n" if defined $p{rights};
-$page.="<meta name=\"DCTERMS.created\" scheme="DCTERMS.W3CDTF"
- content=\"$p{created}\" />\n" if defined $p{created};
-$page.="<meta name=\"DCTERMS.modified\" scheme="DCTERMS.W3CDTF"
- content=\"$p{modified}\" />\n" if defined $p{modified};
+$page.="<meta name=\"DCTERMS.created\" scheme=\"DCTERMS.W3CDTF\" content=\"$p{created}\" />\n" if defined $p{created};
+$page.="<meta name=\"DCTERMS.modified\" scheme=\"DCTERMS.W3CDTF\" content=\"$p{modified}\" />\n" if defined $p{modified};
 $page.="<meta name=\"DC.date\" content=\"$p{date}\" />\n" if defined $p{date};
 
 if (defined $p{legacy} && defined $p{description} && defined $p{subject})
