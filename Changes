@@ -13,3 +13,6 @@ Revision history for Perl extension HTML::XHTML::Lite.
 0.04  Tue June 14 16:51:00 2005
 	- Fix bug when end_page() was not given an argument
 	- Insert missing documentation for end_page()
+0.05  Mon June 05 09:00:00 2006
+	- Correct presentation of Dublin Core metadata
+	  to incorporate correct DCTERMS stuff.

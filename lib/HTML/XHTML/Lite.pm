@@ -25,7 +25,7 @@ our @EXPORT = qw(
 start_page end_page getvars
 );
 
-our $VERSION = '0.04';
+our $VERSION = '0.05';
 
 
 # Preloaded methods go here.
@@ -71,9 +71,10 @@ $page.=<<EOT;
 <head>
 <title>$p{title}</title>
 <link rel="schema.DC" href="http://purl.org/dc/elements/1.1/" />
-<meta name="DC.language" scheme="RFC1766" content="$p{lang}" />
-<meta name="DC.type" scheme="DCMIType" content="Text" />
-<meta name="DC.format" content="text/html; charset=$charset" />
+<link rel="schema.DCTERMS" href="http://purl.org/dc/terms/" />
+<meta name="DC.language" scheme="DCTERMS.RFC1766" content="$p{lang}" />
+<meta name="DC.type" scheme="DCTERMS.DCMIType" content="Text" />
+<meta name="DC.format" scheme="DCTERMS.IMT" content="text/html; charset=$charset" />
 <meta name="DC.title" lang="$p{lang}" content="$p{dctitle}" />
 EOT
 
@@ -82,8 +83,10 @@ $page.="<meta name=\"DC.creator\" content=\"$p{creator}\" />\n" if defined $p{cr
 $page.="<meta name=\"DC.identifier\" content=\"$p{identifier}\" />\n" if defined $p{identifier};
 $page.="<meta name=\"DC.subject\" lang=\"$p{lang}\" content=\"$p{subject}\" />\n" if defined $p{subject};
 $page.="<meta name=\"DC.rights\" content=\"$p{rights}\" />\n" if defined $p{rights};
-$page.="<meta name=\"DC.date.created\" content=\"$p{created}\" />\n" if defined $p{created};
-$page.="<meta name=\"DC.date.modified\" content=\"$p{modified}\" />\n" if defined $p{modified};
+$page.="<meta name=\"DCTERMS.created\" scheme="DCTERMS.W3CDTF"
+ content=\"$p{created}\" />\n" if defined $p{created};
+$page.="<meta name=\"DCTERMS.modified\" scheme="DCTERMS.W3CDTF"
+ content=\"$p{modified}\" />\n" if defined $p{modified};
 $page.="<meta name=\"DC.date\" content=\"$p{date}\" />\n" if defined $p{date};
 
 if (defined $p{legacy} && defined $p{description} && defined $p{subject})
@@ -166,7 +169,7 @@ sub getvars
 	# Pick up anything passed through the 
 	# query string, either by a GET form
 	# or direct by URI
-	my $qs=$ENV{QUERY_STRING};
+	my $qs=$ENV{QUERY_STRING}; 
 	$qs=~s/&/;/g;
 	push(@nvps,split(/;/,$qs));
 	
@@ -222,7 +225,10 @@ into the document header.
 
 In addition to the generation of XHTML, the function getvars() is included to
 populate a hash with data from the query string and POST data.  This is an
-unsophisticated equivalent to CGI.pm's $q->para('xyz') functionality.
+unsophisticated equivalent to CGI.pm's $q->para('xyz') functionality and does
+NOT work with forms where enc="multipart/form-data" - in other words, forms that
+upload files.  You will need to use CGI.pm to handle these until such time 
+as that functionality is added to this module.
 
 The aim of this module is to help produce content that is both accessible and
 machine-parseable.  One of the methods of start_page(), nodoctype=>1, is provided
